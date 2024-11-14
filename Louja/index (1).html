@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coisas de Nada</title>
+    <style>
+        /* Configuração geral */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #f4f4f4, #e0e0e0);
+            color: #333;
+        }
+        header {
+            background-color: #ff6f61;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        header h1 {
+            font-size: 3em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        header p {
+            font-size: 1.4em;
+            margin-top: 10px;
+            font-weight: 400;
+        }
+        .search-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .search-input {
+            width: 60%;
+            padding: 12px;
+            border-radius: 30px;
+            border: 1px solid #ccc;
+            font-size: 1.2em;
+            margin-right: 15px;
+            transition: all 0.3s ease;
+        }
+        .search-input:focus {
+            border-color: #ff6f61;
+            outline: none;
+        }
+        .search-button {
+            padding: 12px 25px;
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+        }
+        .search-button:hover {
+            background-color: #ff3d2f;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .produto {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+        .produto:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+        }
+        .produto img {
+            display: block;
+            margin: 0 auto 15px;
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        .preco {
+            font-size: 1.5em;
+            color: #333;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .botao-comprar {
+            display: inline-block;
+            margin: 20px auto;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #7661ff, #ff3d2f);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        .botao-comprar:hover {
+            background: linear-gradient(45deg, #ff3d2f, #7661ff);
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+            font-size: 1em;
+        }
+        /* Jogo da Cobrinha */
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 40px;
+        }
+        #gameCanvas {
+            border: 2px solid #333;
+            background-color: #fff;
+            margin-top: 20px;
+        }
+        #score {
+            font-size: 1.5em;
+            margin-top: 15px;
+        }
+        .botao-iniciar {
+            padding: 12px 30px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .botao-iniciar:hover {
+            background-color: #45a049;
+        }
+        /* Botões sociais */
+        .social-buttons {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .social-button {
+            background-color: #25d366;
+            color: white;
+            padding: 15px 25px;
+            margin: 10px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+        }
+        .social-button.instagram {
+            background-color: #e4405f;
+        }
+        .social-button:hover {
+            background-color: #128C7E;
+        }
+        .social-button.instagram:hover {
+            background-color: #C13584;
+        }
+        /* Responsividade */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+            .container {
+                width: 95%;
+            }
+            .produto img {
+                width: 90%;
+            }
+            .preco, .botao-comprar {
+                font-size: 1.2em;
+            }
+            .game-container {
+                width: 100%;
+                margin-top: 20px;
+            }
+            #gameCanvas {
+                width: 90%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="inicio">
+        <h1>Coisas de Nada</h1>
+        <p>Conheça os produtos mais inúteis que você nunca precisará!</p>
+        <div class="search-container">
+            <input type="text" class="search-input" id="searchInput" placeholder="Buscar produtos..." aria-label="Buscar produtos">
+            <button class="search-button" onclick="searchProduct()">Buscar</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Produto 1 -->
+        <div class="produto" id="produto1">
+            <h2>Caneta que escreve de ponta-cabeça</h2>
+            <p>Esta caneta especial permite que você escreva enquanto está de ponta-cabeça. Ideal para astronautas ou ninguém!</p>
+            <img src="pngwing.com.png" alt="Imagem da caneta que escreve de ponta-cabeça" width="300" height="300">
+            <p class="preco">Preço: R$ 19,90</p>
+            <a href="pagamento-caneta.html" class="botao-comprar">Comprar</a>
+        </div>
+
+        <!-- Produto 2 -->
+        <div class="produto" id="produto2">
+            <h2>Porta-banana</h2>
+            <p>Um porta-banana de plástico projetado para proteger sua banana contra impactos, mesmo que ela já venha com uma casca natural.</p>
+            <img src="pngwing.com (1).png" alt="Imagem do porta-banana" width="300" height="300">
+            <p class="preco">Preço: R$ 14,90</p>
+            <a href="pagamento-porta-banana.html" class="botao-comprar">Comprar</a>
+        </div>
+
+        <!-- Produto 3 -->
+        <div class="produto" id="produto3">
+            <h2>Ventilador USB</h2>
+            <p>Este ventilador pequeno é ideal para manter você fresco, mas apenas enquanto você estiver perto de um computador ou no lugar certo.</p>
+            <img src="pngwing.com (2).png" alt="Imagem do ventilador USB" width="300" height="300">
+            <p class="preco">Preço: R$ 24,90</p>
+            <a href="pagamento-ventilador.html" class="botao-comprar">Comprar</a>
+        </div>
+
+        <!-- Jogo da Cobrinha -->
+        <div class="game-container">
+            <h2>Jogo da Cobrinha</h2>
+            <canvas id="gameCanvas" width="400" height="400"></canvas>
+            <p id="score">Pontuação: 0</p>
+            <button class="botao-iniciar" onclick="startGame()">Iniciar Jogo</button>
+        </div>
+
+        <!-- Botões de Redes Sociais -->
+        <div class="social-buttons">
+            <a href="https://wa.me/+55 12 99118-0694" class="social-button">WhatsApp</a>
+            <a href="https://www.instagram.com/cristiano/" class="social-button instagram">Instagram</a>
+</div>
+    </div>
+
+    <footer>
+        <p>© 2024 Coisas de Nada. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Função do Jogo da Cobrinha
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        let snake = [{ x: 50, y: 50 }];
+        let food = { x: 100, y: 100 };
+        let direction = "right";
+        let score = 0;
+        let gameInterval;
+
+        function drawSnake() {
+            snake.forEach(segment => {
+                ctx.fillStyle = "green";
+                ctx.fillRect(segment.x, segment.y, 10, 10);
+            });
+        }
+
+        function drawFood() {
+            ctx.fillStyle = "red";
+            ctx.fillRect(food.x, food.y, 10, 10);
+        }
+
+        function moveSnake() {
+            const head = { ...snake[0] };
+
+            if (direction === "right") head.x += 10;
+            if (direction === "left") head.x -= 10;
+            if (direction === "up") head.y -= 10;
+            if (direction === "down") head.y += 10;
+
+            snake.unshift(head);
+            if (head.x === food.x && head.y === food.y) {
+                score++;
+                food = {
+                    x: Math.floor(Math.random() * (canvas.width / 10)) * 10,
+                    y: Math.floor(Math.random() * (canvas.height / 10)) * 10
+                };
+            } else {
+                snake.pop();
+            }
+        }
+
+        function checkCollision() {
+            if (snake[0].x < 0 || snake[0].y < 0 || snake[0].x >= canvas.width || snake[0].y >= canvas.height) {
+                return true;
+            }
+
+            for (let i = 1; i < snake.length; i++) {
+                if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        function updateScore() {
+            document.getElementById("score").textContent = "Pontuação: " + score;
+        }
+
+        function gameLoop() {
+            moveSnake();
+            if (checkCollision()) {
+                clearInterval(gameInterval);
+                alert("Fim de jogo! Sua pontuação foi " + score);
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawSnake();
+            drawFood();
+            updateScore();
+        }
+
+        function startGame() {
+            snake = [{ x: 50, y: 50 }];
+            direction = "right";
+            score = 0;
+            gameInterval = setInterval(gameLoop, 100);
+        }
+
+        function changeDirection(event) {
+    if (event.key === "d" && direction !== "left") direction = "right";  // 'D' para mover para a direita
+    if (event.key === "a" && direction !== "right") direction = "left";  // 'A' para mover para a esquerda
+    if (event.key === "w" && direction !== "down") direction = "up";     // 'W' para mover para cima
+    if (event.key === "s" && direction !== "up") direction = "down";     // 'S' para mover para baixo
+}
+
+
+        window.addEventListener("keydown", changeDirection);
+    </script>
+</body>
+</html>
